@@ -7,12 +7,12 @@ RUN apt update && \
 
 # generate adsblock.conf file with all hosts to blacklist
 RUN echo "server:" > /tmp/adsblock.conf
-RUN curl -f -L -i https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts \
+RUN curl -f -L -k https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts \
     | grep '^0\.0\.0\.0' \
     | awk '{print "  local-zone: \""$2"\" redirect\n  local-data: \""$2" A 0.0.0.0\""}' >> /tmp/adsblock.conf
 
 # retrieve latests root hints
-RUN curl -f -L -i https://www.internic.net/domain/named.root -o /tmp/root.hints
+RUN curl -f -L -k https://www.internic.net/domain/named.root -o /tmp/root.hints
 
 
 # Final Image
